@@ -5,9 +5,10 @@ import requests
 import markdownify
 import os
 import logging
+import urllib3
 
 app = Flask(__name__)
-
+#urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # 启用 CORS，允许所有域的请求（注意：在生产环境中应限制允许的域）
 CORS(app, resources={r"/convert": {"origins": "*"}})
 
@@ -23,9 +24,15 @@ def convert():
 
     try:
         # 获取HTML内容
-        response = requests.get(url, verify=False)
+        headers = {
+             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        }
+        response = requests.get(url,headers=headers, verify=False)
         response.raise_for_status()
         html_content = response.text
+        if not html_content.strip():
+             app.logger.error('Fetched HTML content is empty')
+             return jsonify({'error': 'Fetched HTML content is empty'}), 500
         app.logger.info('Fetched HTML content successfully')
 
         extractor = GeneralExtractor()
@@ -57,8 +64,8 @@ def convert():
         return jsonify({'error': str(e)}), 500
     except Exception as e:
         app.logger.error(f'Exception: {str(e)}')
+        app.logger.error(traceback.format_exc())  # 输出堆栈信息
         return jsonify({'error': 'An error occurred during conversion'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, ssl_context=('cert.pem', 'key.pem'))
-
+    app.run(host='0.0.0.0', port=5000, debug=True, ssl_context=('cert.pem', 'decrypted_key.pem'))
