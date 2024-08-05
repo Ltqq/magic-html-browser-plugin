@@ -18,5 +18,3 @@
 
 右键点击页面即可
 
-## 可能问题
-1. 网站可能会返回 JavaScript 渲染的内容，requests 只获取 HTML 源码，无法处理 JavaScript 渲染的内容，可以使用selenium
