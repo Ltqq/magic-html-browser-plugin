@@ -3,7 +3,7 @@
 使用magic-html部署后端python应用程序，同时提供chrome插件，右键支持任意html导出markdown下载
 ## chrome插件
 1. 浏览器开发者模式，直接加载
-2. 配置后端服务地址`https://ip:port/convert`
+2. 配置后端服务地址`ip:port/convert` 内置默认了https协议
 
 ## 后端服务
 
@@ -17,4 +17,6 @@
 ## 使用
 
 右键点击页面即可
+
+## 考虑可能存在翻译，由浏览器发送当前网页到 server 执行装换
 
