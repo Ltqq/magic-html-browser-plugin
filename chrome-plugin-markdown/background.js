@@ -30,12 +30,15 @@ function convertToMarkdown() {
         const serviceUrl = data.serviceUrl;
         console.log(serviceUrl)
         if (serviceUrl) {
-            fetch("https://"+serviceUrl, {
+            fetch("https://" + serviceUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ url: window.location.href })
+                body: JSON.stringify({
+                    url: window.location.href,
+                    html: pageContent
+                })
             })
                 .then(response => response.blob()) // 处理响应为 Blob
                 .then(blob => {

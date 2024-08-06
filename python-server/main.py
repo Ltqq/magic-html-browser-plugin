@@ -21,19 +21,20 @@ def convert():
 
     url = data['url']
     app.logger.info(f'Received URL: {url}')
+    html = data['html']
 
     try:
         # 获取HTML内容
-        headers = {
-             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-        }
-        response = requests.get(url,headers=headers, verify=False)
-        response.raise_for_status()
-        html_content = response.text
-        if not html_content.strip():
-             app.logger.error('Fetched HTML content is empty')
-             return jsonify({'error': 'Fetched HTML content is empty'}), 500
-        app.logger.info('Fetched HTML content successfully')
+        #headers = {
+        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+        #}
+        #response = requests.get(url,headers=headers, verify=False)
+        #response.raise_for_status()
+        html_content = html
+        #if not html_content.strip():
+        #     app.logger.error('Fetched HTML content is empty')
+        #     return jsonify({'error': 'Fetched HTML content is empty'}), 500
+        #app.logger.info('Fetched HTML content successfully')
 
         extractor = GeneralExtractor()
         extracted_data = extractor.extract(html_content, base_url=url)
